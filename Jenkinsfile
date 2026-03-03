@@ -1,5 +1,6 @@
 pipeline {
   agent any
+
   stages {
     stage('build') {
       steps {
@@ -16,7 +17,11 @@ pipeline {
     stage('package') {
       steps {
         sh 'mvn package -DskipTests'
-        archiveArtifacts '**/target/*.jar'
+      }
+      post {
+        success {
+          archiveArtifacts '**/target/*.jar'
+        }
       }
     }
 
